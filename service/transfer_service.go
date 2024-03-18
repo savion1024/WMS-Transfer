@@ -42,7 +42,7 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	// 打印耗时时间  格式为毫秒
 	costTime := time.Since(startTime)
-	log.Printf("请求耗时: %d ms", costTime.Milliseconds())
+	log.Printf("耗时: %d ms, url: %s", costTime.Milliseconds(), url)
 
 	// 将转发响应的内容写入原始请求的响应
 	w.WriteHeader(resp.StatusCode)

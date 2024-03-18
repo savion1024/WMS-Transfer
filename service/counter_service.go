@@ -21,32 +21,6 @@ type JsonResult struct {
 	Data     interface{} `json:"data"`
 }
 
-// IndexHandler 计数器接口
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	startTime := time.Now()
-	data, err := Login()
-	if err != nil {
-		return
-	}
-	userTime := time.Since(startTime)
-	ret := map[string]interface{}{
-		"data": data,
-		"cost": userTime,
-	}
-	res := &JsonResult{
-		Data:     ret,
-		Code:     0,
-		ErrorMsg: "",
-	}
-	msg, err := json.Marshal(res)
-	if err != nil {
-		fmt.Fprint(w, "内部错误")
-		return
-	}
-	w.Write(msg)
-
-}
-
 // CounterHandler 计数器接口
 func CounterHandler(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
@@ -164,15 +138,6 @@ func getAction(r *http.Request) (string, error) {
 	}
 
 	return action.(string), nil
-}
-
-// getIndex 获取主页
-func getIndex() (string, error) {
-	b, err := ioutil.ReadFile("./index.html")
-	if err != nil {
-		return "", err
-	}
-	return string(b), nil
 }
 
 func Login() (string, error) {

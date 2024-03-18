@@ -2,10 +2,13 @@ package service
 
 import (
 	"io/ioutil"
+	"log"
 	"net/http"
+	"time"
 )
 
 func TransferHandler(w http.ResponseWriter, r *http.Request) {
+	startTime := time.Now()
 	// 从r.header里面拿参数
 	url := r.Header.Get("url")
 	// 创建要转发的请求
@@ -37,8 +40,12 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "读取响应失败", http.StatusInternalServerError)
 		return
 	}
+	// 打印耗时时间  格式为毫秒
+	costTime := time.Since(startTime)
+	log.Printf("请求耗时: %d ms", costTime.Milliseconds())
 
 	// 将转发响应的内容写入原始请求的响应
 	w.WriteHeader(resp.StatusCode)
 	w.Write(body)
+
 }

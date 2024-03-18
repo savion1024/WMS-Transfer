@@ -22,12 +22,18 @@ type JsonResult struct {
 
 // IndexHandler 计数器接口
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	data, err := getIndex()
+
+	res := &JsonResult{
+		Data:     "计数器接口",
+		Code:     0,
+		ErrorMsg: "",
+	}
+	msg, err := json.Marshal(res)
 	if err != nil {
 		fmt.Fprint(w, "内部错误")
 		return
 	}
-	fmt.Fprint(w, data)
+	w.Write(msg)
 }
 
 // CounterHandler 计数器接口

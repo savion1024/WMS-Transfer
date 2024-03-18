@@ -24,7 +24,14 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 			req.Header.Add(key, value)
 		}
 	}
-
+	queryParams := r.URL.Query()
+	// 复制原始请求的 query参数到转发请求
+	for key, values := range r.URL.Query() {
+		for _, value := range values {
+			queryParams.Add(key, value)
+		}
+	}
+	req.URL.RawQuery = queryParams.Encode()
 	// 创建 HTTP 客户端并发送转发请求
 	client := &http.Client{}
 	resp, err := client.Do(req)

@@ -16,7 +16,7 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 	// 创建要转发的请求
 	req, err := http.NewRequest(r.Method, url, r.Body)
 	if err != nil {
-		http.Error(w, "无法创建请求", http.StatusInternalServerError)
+		log.Printf("无法创建请求, url: %s", url)
 		return
 	}
 
@@ -31,7 +31,7 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 	// 创建 HTTPS 客户端并发送转发请求
 	resp, err := client.Do(req)
 	if err != nil {
-		http.Error(w, "请求转发失败", http.StatusInternalServerError)
+		log.Printf("请求转发失败, url: %s", url)
 		return
 	}
 	defer resp.Body.Close()
@@ -39,7 +39,7 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 	// 读取转发响应的内容
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		http.Error(w, "读取响应失败", http.StatusInternalServerError)
+		log.Printf("读取响应失败, url: %s", url)
 		return
 	}
 	// 打印耗时时间  格式为毫秒

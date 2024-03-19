@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+var client = &http.Client{}
+
 func TransferHandler(w http.ResponseWriter, r *http.Request) {
 	startTime := time.Now()
 	// 从r.header里面拿参数
@@ -25,15 +27,8 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	queryParams := r.URL.Query()
-	// 复制原始请求的 query参数到转发请求
-	for key, values := range r.URL.Query() {
-		for _, value := range values {
-			queryParams.Add(key, value)
-		}
-	}
 	req.URL.RawQuery = queryParams.Encode()
-	// 创建 HTTP 客户端并发送转发请求
-	client := &http.Client{}
+	// 创建 HTTPS 客户端并发送转发请求
 	resp, err := client.Do(req)
 	if err != nil {
 		http.Error(w, "请求转发失败", http.StatusInternalServerError)

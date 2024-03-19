@@ -11,7 +11,6 @@ func main() {
 	//	panic(fmt.Sprintf("mysql init failed with %+v", err))
 	//}
 
-	http.HandleFunc("/api/count", service.CounterHandler)
 	http.HandleFunc("/api/transfer", service.TransferHandler)
 
 	log.Fatal(http.ListenAndServe(":80", nil))

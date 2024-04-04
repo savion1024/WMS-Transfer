@@ -7,7 +7,10 @@ import (
 	"time"
 )
 
-var client = &http.Client{}
+var client = &http.Client{Transport: &http.Transport{
+	MaxIdleConns:    100,              // 最大空闲连接数
+	IdleConnTimeout: 30 * time.Second, // 空闲连接的超时时间
+}}
 
 func TransferHandler(w http.ResponseWriter, r *http.Request) {
 	startTime := time.Now()
@@ -31,7 +34,7 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 	// 创建 HTTPS 客户端并发送转发请求
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Printf("请求转发失败, url: %s", url)
+		log.Printf("请求转发失败, url: %s, 状态码: %d", url, resp.StatusCode)
 		return
 	}
 	defer resp.Body.Close()

@@ -34,7 +34,8 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 	// 创建 HTTPS 客户端并发送转发请求
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Printf("请求转发失败, url: %s, 状态码: %d", url, resp.StatusCode)
+		log.Printf("请求转发失败, url: %s, err: %s", url, err.Error())
+		//log.Printf("请求转发失败, url: %s, 状态码: %d", url, resp.StatusCode)
 		return
 	}
 	defer resp.Body.Close()

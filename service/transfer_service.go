@@ -8,8 +8,8 @@ import (
 )
 
 var client = &http.Client{Transport: &http.Transport{
-	MaxIdleConns:    100,              // 最大空闲连接数
-	IdleConnTimeout: 30 * time.Second, // 空闲连接的超时时间
+	MaxIdleConns:    100,                  // 最大空闲连接数
+	IdleConnTimeout: 60 * 6 * time.Second, // 空闲连接的超时时间
 }}
 
 func TransferHandler(w http.ResponseWriter, r *http.Request) {

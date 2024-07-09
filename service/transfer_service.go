@@ -51,6 +51,11 @@ func TransferHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("请求耗时: %d ms, url: %s", costTime.Milliseconds(), url)
 
 	// 将转发响应的内容写入原始请求的响应
+	for name, values := range resp.Header {
+		for _, value := range values {
+			w.Header().Add(name, value)
+		}
+	}
 	w.WriteHeader(resp.StatusCode)
 	w.Write(body)
 
